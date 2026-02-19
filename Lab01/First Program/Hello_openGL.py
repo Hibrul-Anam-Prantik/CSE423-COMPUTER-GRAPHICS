@@ -31,9 +31,11 @@ def draw_lines():
 
 # ===== Set up 2D coordinate system =====
 def setup_projection():
-    glViewport(0, 0, 500, 500)     # Define the portion of the window to render to
+    # glViewport(x, y, width, height)
+    glViewport(0, 0, 500, 500)     # Define the portion of the window to render to (0, 0) is the bottom-left corner, and (500, 500) is the top-right corner; This is the size of the drawing area in pixels.
     glMatrixMode(GL_PROJECTION)    # Switch to the projection matrix
     glLoadIdentity()               # Reset the projection matrix
+    # glOrtho(left, right, bottom, top, near, far)
     glOrtho(0.0, 500, 0.0, 500, 0.0, 1.0)  # Define a 2D orthographic projection
     glMatrixMode(GL_MODELVIEW)     # Switch back to the modelview matrix
 
@@ -43,18 +45,19 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)  # Clear screen and depth buffer
     glLoadIdentity()                                    # Reset transformations
     setup_projection()                                  # Set up coordinate system
-    glColor3f(0.0, 0.0, 0.8)                            # Set color (R, G, B) → Yellow
-    draw_points(x, y)  
-    draw_points(5, 3)  
+    glColor3f(0.0, 0.0, 0.8)                            # Set color (R, G, B) → Blue
+    draw_points(x, y)                                   # Global point coordinates, (250, 250)
+    glColor3f(0.8, 0.0, 0.0)                            # Set color to red for the second point 
+    draw_points(100, 150)  
     # Draw the points
     draw_lines()
-    glutSwapBuffers()# Swap buffers (double buffering)
+    glutSwapBuffers()                                   # Swap buffers (double buffering)
 
 
 # ===== Main entry point =====
 def main():
     glutInit()                               # Initialize GLUT
-    glutInitDisplayMode(GLUT_RGBA)           # Set display mode: RGBA color
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE)           # Set display mode: RGBA color
     glutInitWindowSize(500, 500)             # Set window size (width, height)
     glutInitWindowPosition(0, 0)             # Set window position (top-left corner)
     glutCreateWindow(b"OpenGL 2D Point")     # Create window with a title
