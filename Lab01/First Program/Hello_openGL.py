@@ -11,9 +11,21 @@ x, y = 250, 250
 
 # ===== Function to draw a single point =====
 def draw_points(x, y):
-    glPointSize(5)          # Set pixel size of the point (default = 1)
+    glPointSize(30)          # Set pixel size of the point (default = 1)
     glBegin(GL_POINTS)      # Start drawing points
-    glVertex2f(x, y)        # Specify the (x, y) coordinate of the point
+    glVertex2f(x, y)  
+    glColor3f(0, 1, 1)# Specify the (x, y) coordinate of the point
+    glVertex2f(200, 200)
+    glEnd()                 # Finish drawing
+
+
+def draw_lines():
+    glBegin(GL_LINES)       # Start drawing lines
+    glVertex2f(100, 100)    # First endpoint of the line
+    glVertex2f(200, 200)    # Second endpoint of the line
+    glColor3f(0, 0, .8)     # Set line color to red
+    glVertex2f(255, 255)
+    glVertex2f(355, 355)
     glEnd()                 # Finish drawing
 
 
@@ -31,9 +43,12 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)  # Clear screen and depth buffer
     glLoadIdentity()                                    # Reset transformations
     setup_projection()                                  # Set up coordinate system
-    glColor3f(1.0, 1.0, 0.0)                            # Set color (R, G, B) → Yellow
-    draw_points(x, y)                                   # Draw the point
-    glutSwapBuffers()                                   # Swap buffers (double buffering)
+    glColor3f(0.0, 0.0, 0.8)                            # Set color (R, G, B) → Yellow
+    draw_points(x, y)  
+    draw_points(5, 3)  
+    # Draw the points
+    draw_lines()
+    glutSwapBuffers()# Swap buffers (double buffering)
 
 
 # ===== Main entry point =====
