@@ -99,7 +99,7 @@ def keyboard_listener(key, x, y):
         ball_size += 1
         print("Ball size increased")
     elif key == b's':  # Decrease size
-        ball_size = max(1, ball_size - 1)
+        ball_size = max(1, ball_size - 1)  # Prevent size from going below 1 
         print("Ball size decreased")
     glutPostRedisplay()
 
@@ -151,6 +151,7 @@ def display():
 
     draw_axes()
     draw_shapes()
+    glColor3f(0.8, 0.8, 0.8)  # Ball color (dark gray)
     draw_point(ball_x, ball_y, ball_size)
 
     # Draw bounding L-shape in the top-right corner
@@ -164,7 +165,7 @@ def display():
     # Draw the right-clicked point (if any)
     if new_point:
         px, py = new_point
-        glColor3f(0.7, 0.8, 0.6)
+        glColor3f(0.7, 0.8, 0)
         draw_point(px, py, 6)
 
     glutSwapBuffers()
