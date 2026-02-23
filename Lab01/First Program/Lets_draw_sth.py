@@ -43,7 +43,6 @@ def draw_point(x, y, size):
     glVertex2f(x, y)
     glEnd()
 
-
 def draw_axes():
     """Draws X and Y axes centered at origin."""
     glLineWidth(1)
@@ -65,7 +64,6 @@ def draw_axes():
     glVertex2f(0, 0)
     glEnd()
 
-
 def draw_shapes():
     """Draws a triangle and a square with color gradients."""
     # Triangle
@@ -77,7 +75,6 @@ def draw_shapes():
     glColor3f(0, 0, 1)
     glVertex2d(-170, 170)
     glEnd()
-
     # Square (quad)
     glBegin(GL_QUADS)
     glColor3f(1, 0, 1)
@@ -89,7 +86,6 @@ def draw_shapes():
     glColor3f(1, 1, 0)
     glVertex2d(-170, 140)
     glEnd()
-
 
 # ===== Keyboard & Mouse Interaction =====
 def keyboard_listener(key, x, y):
@@ -103,7 +99,6 @@ def keyboard_listener(key, x, y):
         print("Ball size decreased")
     glutPostRedisplay()
 
-
 def special_key_listener(key, x, y):
     """Handles special keys (arrows, F-keys, etc.)."""
     global ball_speed
@@ -114,7 +109,6 @@ def special_key_listener(key, x, y):
         ball_speed /= 2
         print("Speed decreased")
     glutPostRedisplay()
-
 
 def mouse_listener(button, state, x, y):
     """
@@ -131,7 +125,6 @@ def mouse_listener(button, state, x, y):
         new_point = convert_coordinate(x, y)
         print(f"New point created at {new_point}")
 
-
 # ===== Projection Setup =====
 def setup_projection():
     """Defines a 2D orthographic coordinate system."""
@@ -140,7 +133,6 @@ def setup_projection():
     glLoadIdentity()
     glOrtho(-250, 250, -250, 250, 0, 1)
     glMatrixMode(GL_MODELVIEW)
-
 
 # ===== Display & Animation =====
 def display():
@@ -153,7 +145,6 @@ def display():
     draw_shapes()
     glColor3f(0.8, 0.8, 0.8)  # Ball color (dark gray)
     draw_point(ball_x, ball_y, ball_size)
-
     # Draw bounding L-shape in the top-right corner
     glBegin(GL_LINES)
     glVertex2d(180, 0)
@@ -161,15 +152,12 @@ def display():
     glVertex2d(180, 180)
     glVertex2d(0, 180)
     glEnd()
-
     # Draw the right-clicked point (if any)
     if new_point:
         px, py = new_point
         glColor3f(0.7, 0.8, 0)
         draw_point(px, py, 6)
-
     glutSwapBuffers()
-
 
 def animate():
     """Continuously moves the ball diagonally."""
@@ -178,7 +166,6 @@ def animate():
     ball_y = (ball_y + ball_speed) % 180
     glutPostRedisplay()
 
-
 # ===== Main Function =====
 def main():
     glutInit()
@@ -186,16 +173,13 @@ def main():
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)
     glutInitWindowPosition(100, 100)
     glutCreateWindow(b"OpenGL Interactive Animation")
-
     # Register callback functions
     glutDisplayFunc(display)
     glutIdleFunc(animate)
     glutKeyboardFunc(keyboard_listener)
     glutSpecialFunc(special_key_listener)
     glutMouseFunc(mouse_listener)
-
     glutMainLoop()
-
 
 # ===== Entry Point =====
 if __name__ == "__main__":
