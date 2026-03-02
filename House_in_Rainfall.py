@@ -13,8 +13,24 @@ def drawTriangle(x1, y1, x2, y2, x3, y3):
     glVertex2f(x2, y2)
     glVertex2f(x3, y3)
     glEnd()
+    
+def drawField():
+    # glColor3f(0.42, 0.56, 0.14)
+    glColor3f(0.6, 0.4, 0.1)
+    drawTriangle(0, 300, 0, 0, 500, 0)
+    drawTriangle(0, 300, 500, 300, 500, 0)
+    
+def drawTrees():
+    glColor3f(0.13, 0.55, 0.13)
+    for x in range(0, 500, 40):
+        # left-most -> x
+        # right-most -> x+40
+        # middle -> x+20
+        drawTriangle(x, 240, x + 40, 240, x + 20, 290)
 
 def drawHouse():
+    drawField()
+    drawTrees()
     # house body
     glColor3f(1.0, 0.98, 0.94)
     drawTriangle(187.5, 255, 187.5, 190, 312.5, 190)
