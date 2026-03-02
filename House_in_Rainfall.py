@@ -1,6 +1,16 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+import random 
+
+rainDrops = []
+for _ in range(100):
+    x = random.randint(0, 500)
+    y = random.randint(0, 500)
+    rainDrops.append([x, y])
+
+rainAngle = 0      # 0 -> straight, - -> left, + -> right
+dayNight = 0.0   # 0 -> night, 1 -> day
 
 def drawLines(x, y):
     glBegin(GL_LINES)
@@ -66,6 +76,43 @@ def drawHouse():
     glVertex2f(275, 227.5)
     glVertex2f(300, 227.5)
     glEnd()
+    
+def drawRain():
+    # glColor3f(0.5, 0.5, 0.8)
+    glColor3f(.8, .8, 1)
+    glBegin(GL_LINES)
+    for drop in rainDrops:
+        glVertex2f(drop[0], drop[1])
+        glVertex2f(drop[0] + rainAngle, drop[1] - 20) 
+    glEnd()
+
+def animate():
+    global rainDrops
+    for drop in rainDrops:
+        drop[0] += rainAngle * 0.1
+        drop[1] -= 4
+
+        if drop[1] < 0:
+            drop[1] = 500
+            drop[0] = random.randint(0, 500)
+
+    glutPostRedisplay()
+    
+def keyboard_listener(key, x, y):
+    global dayNight
+    if key == b'd':
+        dayNight = min(1.0, dayNight + 0.25) # 1/4 = 0.25
+    elif key == b'n':
+        dayNight = max(0.0, dayNight - 0.25)
+    glutPostRedisplay()
+
+def special_key_listener(key, x, y):
+    global rainAngle
+    if key == GLUT_KEY_LEFT: 
+        rainAngle -= 2
+    elif key == GLUT_KEY_RIGHT:
+        rainAngle += 2
+    glutPostRedisplay()
 
 def setupProjection():
     glViewport(0, 0, 500, 500)
@@ -73,12 +120,17 @@ def setupProjection():
     glLoadIdentity()
     glOrtho(0, 500, 0, 500, 0, 1)
     glMatrixMode(GL_MODELVIEW)
-  
+    
 def display():
+    glClearColor(dayNight, dayNight, dayNight, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     setupProjection()
+    
+    drawField()
+    drawTrees()
     drawHouse()
+    drawRain()
     
     glutSwapBuffers()
     
@@ -89,7 +141,13 @@ def main():
     glutInitWindowPosition(450, 200)
     glutCreateWindow(b"A House in Rainfall")
     glutDisplayFunc(display)
+    glutIdleFunc(animate)          
+    glutKeyboardFunc(keyboard_listener)
+    glutSpecialFunc(special_key_listener) 
     glutMainLoop()
 
 if __name__ == "__main__":
     main()
+
+
+
