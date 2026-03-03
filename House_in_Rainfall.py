@@ -115,14 +115,15 @@ def special_key_listener(key, x, y):
     glutPostRedisplay()
 
 def setupProjection():
-    glViewport(0, 0, 500, 500)
+    # glViewport(0, 0, 500, 500)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     glOrtho(0, 500, 0, 500, 0, 1)
     glMatrixMode(GL_MODELVIEW)
     
 def display():
-    glClearColor(dayNight, dayNight, dayNight, 1.0)
+    # glClearColor(dayNight, dayNight, dayNight, 1.0)
+    glClearColor(0.0, dayNight * 0.3, dayNight * 0.6, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     setupProjection()
