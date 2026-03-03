@@ -92,7 +92,17 @@ def animate():
         drop[0] += rainAngle * 0.1
         drop[1] -= 4
 
-        if drop[1] < 0:
+        # if drop[1] < 0:
+        #     drop[1] = 500
+        #     drop[0] = random.randint(0, 500)
+        
+        if drop[0] > 500: # if directed to right
+            drop[0] = 0 # falls from left
+
+        elif drop[0] < 0: # if directed to left
+            drop[0] = 500 # falls from right
+
+        if drop[1] < 0:  # down to up
             drop[1] = 500
             drop[0] = random.randint(0, 500)
 
