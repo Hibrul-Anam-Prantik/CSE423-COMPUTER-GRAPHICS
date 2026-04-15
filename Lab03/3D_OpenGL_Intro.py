@@ -123,10 +123,16 @@ def showScreen():
     # display game info text at a specific screen position
     draw_text(10, 680, f"A Random Fixed Position Text")
     draw_text(10, 640, f"See how the posotion and variable change?: {rand_var}")
+    
+    draw_shapes()
+    
 
 def mouseListener():
-    
-        
+
+def specialKeyListener():
+       
+def keyboardListener():
+           
 def main():
     glutInit()
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH) # enable double buffering, RGB color mode, and depth testing
