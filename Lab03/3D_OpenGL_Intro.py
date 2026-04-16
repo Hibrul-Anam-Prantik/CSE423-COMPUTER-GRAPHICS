@@ -46,6 +46,12 @@ def draw_shapes():
     glColor3f(1, 1, 0) # yellow color
     glScalef(2, 2, 2) # scale the cube to make it bigger
     gluCylinder(gluNewQuadric(), 40, 5, 150, 10, 10) # parameters are: quadric, base radius, top radius, height, slices, stacks
+    glTranslatef(100, 0, 100)
+    glRotatef(90, 0, 1, 0) # parameters are: angle, x, y, z (rotation axis)
+    gluCylinder(gluNewQuadric(), 40, 5, 150, 10, 10)
+    
+    glPopMatrix() # restore the previous matrix state
+     
  
 def setupCamera():
     """
@@ -126,10 +132,30 @@ def showScreen():
     
     draw_shapes()
     
+    # swap buffers for smooth rendering (double buffering)
+    glutSwapBuffers()
 
 def mouseListener():
 
 def specialKeyListener():
+    """ 
+    handles special key inputs (arrow keys) to adjust the camera angle and height.
+    """
+    global camera_pos
+    x, y, z = camera_pos
+    # move camera up (UP arrow key)
+    if key == GLUT_KEY_UP:
+        y += 1  # small angle increment for smooth movement
+    # move camera down (DOWN arrow key)
+    if key == GLUT_KEY_DOWN:
+        y -= 1  # small angle decrement for smooth movement
+    # moving camera left (LEFT arrow key)
+    if key == GLUT_KEY_LEFT:
+        x -= 1  # small angle decrement for smooth movement
+    # moving camera right (RIGHT arrow key)
+    if key == GLUT_KEY_RIGHT:
+        x += 1  # small angle increment for smooth movement
+    camera_pos = (x, y, z) # update the camera position with the new angle and height
        
 def keyboardListener():
            
