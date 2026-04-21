@@ -9,6 +9,8 @@ camera_pos = (0, 600, 500)
 fovY = 120 # field of view in the y direction
 GRID_LENGTH = 600 # length of the grid lines
 rand_var = 423
+t1 = 0
+t2 = 0
 
 def draw_text(x, y, text, font=GLUT_BITMAP_HELVETICA_18):
     glColor3f(1, 1, 1) # white color
@@ -35,9 +37,10 @@ def draw_text(x, y, text, font=GLUT_BITMAP_HELVETICA_18):
     glMatrixMode(GL_MODELVIEW)
 
 def draw_shapes():
+    global t1, t2
     glPushMatrix() # save the current matrix state
     glColor3f(1, 0, 0) # red color
-    glTranslatef(0, 0 , 0) # move to the center of the scene
+    glTranslatef(0, 0 , t1) # move to the center of the scene
     glutSolidCube(60) # take cube size as the parameter
     glTranslatef(0, 0, 100) # move up in the z direction
     glColor3f(0, 1, 0) # green color
@@ -48,11 +51,21 @@ def draw_shapes():
     gluCylinder(gluNewQuadric(), 40, 5, 150, 10, 10) # parameters are: quadric, base radius, top radius, height, slices, stacks
     glTranslatef(100, 0, 100)
     glRotatef(90, 0, 1, 0) # parameters are: angle, x, y, z (rotation axis)
+    glColor3f(.7, .2, .4)
     gluCylinder(gluNewQuadric(), 40, 5, 150, 10, 10)
     
+    glColor3f(0, 1, 1)
+    glTranslatef(300, 0, 100)
+    gluSphere(gluNewQuadric(), 80, 10, 10) # parameters are: quadric, radius, slices, stacks
+    glColor3f(0, 1, 0)
     glPopMatrix() # restore the previous matrix state
-     
- 
+    
+    glPushMatrix()
+    glTranslatef(t2, 0, 0)
+    glutSolidCube(200)
+    glPopMatrix()
+
+
 def setupCamera():
     """
      configures the camera's projection and view settings.
@@ -67,21 +80,27 @@ def setupCamera():
     
     # extract camera position and look-at target from the camera_pos variable
     x, y, z = camera_pos
-    # set the camera position and orientation using gluLookAt, where the camera is positioned at (x, y, z), looking at the origin (0, 0, 0), and with an up vector of (0, 1, 0)
+    # set the camera position and orientation using gluLookAt, where the camera is positioned at (x, y, z),
+    # looking at the origin (0, 0, 0). This project uses the Z axis as the vertical/up direction,
+    # so use (0, 0, 1) as the up vector.
     gluLookAt(x, y, z,     # camera position
-               0, 0, 0,     # look at the target (the origin
-               0, 1, 0)     # up vector (z-axis is up)
+               0, 0, 0,     # look at the target (the origin)
+               0, 0, 1)     # up vector (Z axis is up)
 
 def idle():
     """
         idle func that runs when the application is idle. It updates the random variable and requests a redraw of the screen to create an animation effect.
         - triggers a redraw of the screen by calling glutPostRedisplay(), which will call the display function to update the screen with any changes.
     """
+    
+    global t1,t2
+    t1 += 0.09
+    t2 -= 0.09
     # global camera_pos
     # x, y, z = camera_pos
     # y += 0.5
     # camera_pos = (x, y, z)
-    # glutPostRedisplay() # request a redraw of the screen
+    glutPostRedisplay() # request a redraw of the screen
     
 def showScreen():
     """
@@ -136,6 +155,7 @@ def showScreen():
     glutSwapBuffers()
 
 def mouseListener():
+    pass
 
 def specialKeyListener():
     """ 
@@ -158,6 +178,7 @@ def specialKeyListener():
     camera_pos = (x, y, z) # update the camera position with the new angle and height
        
 def keyboardListener():
+    pass
            
 def main():
     glutInit()
@@ -165,6 +186,7 @@ def main():
     glutInitWindowSize(1000, 800) # set the window size
     glutInitWindowPosition(0, 0); # set the window position
     wind = glutCreateWindow(b"3D Shapes with OpenGL") # create the window with a title
+    # glEnable(GL_DEPTH_TEST)  # enable depth testing for correct 3D overlap
 
     glutDisplayFunc(showScreen) # register the display callback function
     glutKeyboardFunc(keyboardListener)
