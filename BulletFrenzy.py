@@ -36,7 +36,7 @@ active_bullets = []  # list of {x, y, dx, dy}
 
 #enemy
 ENEMY_COUNT = 5
-ENEMY_SPEED = 0.25
+ENEMY_SPEED = 
 ENEMY_HIT_DIST = 45
 BULLET_HIT_DIST = 100
 ENEMY_HIT_COOLDOWN_MAX = 120  #immunity
@@ -353,31 +353,30 @@ def update_cheat_mode():
 def setupCamera():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluPerspective(fovY, 1.25, 1.0, 3000.0)   # zNear = 1.0 (not 0.1) avoids clip glitch
+    gluPerspective(fovY, 1.25, 1.0, 3000.0)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 
     if fp_mode:
-        rad          = deg2rad(gun_angle
-    )
-        cam_behind_x = player_x - math.cos(rad) * 20.0
-        cam_behind_y = player_y - math.sin(rad) * 20.0
-        cam_z        = 85.0       # eye height 
+        rad = deg2rad(gun_angle)
 
-        if cheat_mode and cheat_mode_on and enemies_list:
-            nearest_en  = min(enemies_list, 
-                              key=lambda e: math.hypot(e["x"] - player_x, e["y"] - player_y))
-            look_x = nearest_en["x"]
-            look_y = nearest_en["y"]
-            look_z = ENEMY_BASE_R   # aiming at enemy's base
-        else:
-            # looking alongside gun direction
-            look_x = cam_behind_x + math.cos(rad) * 400.0
-            look_y = cam_behind_y + math.sin(rad) * 400.0
-            look_z = cam_z
+        # Tunable offsets to get a "see half the gun from above" feel:
+        back_offset = 18.0    # how far behind the player the camera sits
+        side_offset = 14.0    # lateral offset to avoid head occlusion
+        cam_z = 140.0         # camera height above ground (higher -> more top-down)
 
-        gluLookAt(cam_behind_x, cam_behind_y, cam_z,
-                  look_x,       look_y,       look_z,
+        # compute eye position: behind + to the side relative to gun direction
+        eye_x = player_x - math.cos(rad) * back_offset + math.sin(rad) * side_offset
+        eye_y = player_y - math.sin(rad) * back_offset - math.cos(rad) * side_offset
+
+        # look point slightly forward of player and down toward gun barrel height
+        look_forward = 40.0
+        look_x = player_x + math.cos(rad) * look_forward
+        look_y = player_y + math.sin(rad) * look_forward
+        look_z = 52.0  # approx gun-barrel height
+
+        gluLookAt(eye_x, eye_y, cam_z,
+                  look_x, look_y, look_z,
                   0, 0, 1)
     else:
         # thirdPerson view  
