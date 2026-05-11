@@ -79,7 +79,7 @@ def angle_gap(a, b):
     diff = abs(a - b) % 360
     return diff if diff <= 180 else 360 - diff
 
-def draw_text(scr_x, scr_y, text_str, font=GLUT_BITMAP_HELVETICA_18): # type: ignore
+def draw_text(scr_x, scr_y, text_str, font=GLUT_BITMAP_HELVETICA_18):
     #Render a string at 2-D screen position (scr_x, scr_y)
     glColor3f(1.0, 1.0, 1.0)
     glMatrixMode(GL_PROJECTION)
@@ -508,7 +508,7 @@ def showScreen():
     #  else 'OFF'}")
 
     if game_over:
-        draw_text(280, 420, "GAME OVER  -  Press R to Restart", GLUT_BITMAP_TIMES_ROMAN_24) # type: ignore
+        draw_text(280, 420, "GAME OVER  -  Press R to Restart", GLUT_BITMAP_TIMES_ROMAN_24)
     glutSwapBuffers()
  
 def main():
